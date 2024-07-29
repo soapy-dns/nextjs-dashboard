@@ -216,6 +216,15 @@ export async function createUser(data: InsertUser) {
   await db.insert(usersTable).values(data)
 }
 
+export type State = {
+  errors?: {
+    customerId?: string[]
+    amount?: string[]
+    status?: string[]
+  }
+  message?: string | null
+}
+
 const InvoiceSchema = z.object({
   id: z.string(),
   customerId: z.string(),
@@ -227,13 +236,26 @@ const InvoiceSchema = z.object({
 // zod-drizzle?
 const CreateInvoiceSchema = InvoiceSchema.omit({ id: true, date: true }) // TODO: WHAT IS THIS DOING?
 
-export async function createInvoice(formData: FormData) {
+export async function createInvoice(prevState: State, formData: FormData) {
+  // export async function createInvoice(formData: FormData) {
   //   customer is a string, and not an idText.  Is that relevant?
-  const invoiceFormData = CreateInvoiceSchema.parse({
+  // const validatedFields = CreateInvoice.safeParse({
+
+  const validatedFields = CreateInvoiceSchema.safeParse({
     customerId: formData.get("customerId"),
     amount: formData.get("amount"),
     status: formData.get("status")
   })
+
+  // If form validation fails, return errors early. Otherwise, continue.
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create Invoice."
+    }
+  }
+
+  const invoiceFormData = validatedFields.data
 
   const { amount: amountFormData } = invoiceFormData
 
