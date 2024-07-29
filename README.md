@@ -1,5 +1,29 @@
-## Next.js App Router Course - Starter
+## Next.js App Router Course - Starter with supabase
 
-This is the starter template for the Next.js App Router Course. It contains the starting code for the dashboard application.
+## for aggregation to work
 
-For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
+will need to run this
+
+```
+ALTER ROLE authenticator SET pgrst.db_aggregates_enabled = 'true';
+NOTIFY pgrst, 'reload config';
+```
+
+or you will get the error msg 'Use of aggregate functions is not allowed'.
+
+Can also set an upper limit for statement cost
+https://supabase.com/blog/postgrest-aggregate-functions#summing-up
+
+## find out what is running on port 3000
+
+lsof -i :3000
+
+kill -9 pid
+
+## supabase connection pool
+
+https://github.com/orgs/supabase/discussions/21264
+
+## supabase branching
+
+https://www.youtube.com/watch?v=N0Wb85m3YMI

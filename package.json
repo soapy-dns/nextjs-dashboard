@@ -3,22 +3,38 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint",
+    "supabase:init": "supabase init",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "generate": "npx drizzle-kit generate",
+    "migrate": "npx drizzle-kit migrate",
+    "typecheck": "tsc --project ./tsconfig.json",
+    "typecheck:watch": "tsc --project ./tsconfig.json --watch",
+    "seed": "node -r dotenv/config ./scripts/seed.js",
+    "seed-supabase": "node -r dotenv/config ./scripts/seed-supabase.js",
+    "generate:types": "npx supabase gen types typescript --project-id $PROJECT_REF --schema public > types/supabase.ts",
+    "generate:types:local": "npx supabase gen types --lang=typescript --local > app/lib/database/types/supabase.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@supabase/ssr": "^0.4.0",
+    "@supabase/supabase-js": "^2.44.3",
     "@tailwindcss/forms": "^0.5.6",
     "@types/node": "20.5.7",
-    "@vercel/postgres": "^0.5.0",
     "autoprefixer": "10.4.15",
     "bcrypt": "^5.1.1",
     "clsx": "^2.0.0",
+    "drizzle-orm": "^0.32.0",
+    "drizzle-zod": "^0.5.1",
     "next": "^14.0.0",
     "postcss": "8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2",
+    "use-debounce": "^9.0.4",
     "zod": "^3.22.2"
   },
   "devDependencies": {
@@ -26,9 +42,12 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.14",
     "dotenv": "^16.3.1",
+    "drizzle-kit": "^0.23.0",
     "eslint": "^8.52.0",
     "eslint-config-next": "^14.0.0",
-    "prettier": "^3.0.3"
+    "postgres": "^3.4.4",
+    "prettier": "^3.0.3",
+    "supabase": "^1.183.5"
   },
   "engines": {
     "node": ">=18"
