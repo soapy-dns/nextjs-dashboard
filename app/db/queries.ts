@@ -12,6 +12,7 @@ import { InsertUser, usersTable, customersTable, invoicesTable, revenueTable, In
 import { formatCurrency } from "../lib/utils"
 import { count, eq, ilike, or, sum } from "drizzle-orm"
 import { idText } from "typescript"
+import { User } from "../lib/definitions"
 
 const ITEMS_PER_PAGE = 6
 
@@ -24,6 +25,21 @@ export async function fetchCustomers() {
   } catch (err) {
     console.log("error fetching customers", err)
     throw new Error("error fetching customers")
+  }
+}
+
+export async function getUserByEmail(email: string): Promise<User | undefined> {
+  try {
+    console.log("getUserByEmail", email)
+    const users = await db
+      .select({ id: usersTable.id, name: usersTable.name, email: usersTable.email, password: usersTable.password })
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
+    console.log("--users--", users)
+    return users ? users[0] : undefined
+  } catch (error) {
+    console.log("failed to fetch user:", error)
+    throw new Error("Failed to fetch user")
   }
 }
 
