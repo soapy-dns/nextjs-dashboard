@@ -27,3 +27,7 @@ https://github.com/orgs/supabase/discussions/21264
 ## supabase branching
 
 https://www.youtube.com/watch?v=N0Wb85m3YMI
+
+## Auth
+
+https://www.youtube.com/watch?v=w2h54xz6Ndw
