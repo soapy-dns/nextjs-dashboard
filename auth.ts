@@ -1,41 +1,42 @@
 import NextAuth from "next-auth"
-import { authConfig } from "./auth.config"
+import GitHub from "next-auth/providers/github"
 import Credentials from "next-auth/providers/credentials"
-import { z } from "zod"
-// import { sql } from "@vercel/postgres"
-import type { User } from "@/app/lib/definitions"
-import bcrypt from "bcrypt"
-import { getUserByEmail } from "./app/db/queries"
 
-export const { auth, signIn, signOut } = NextAuth({
-  ...authConfig,
+const adminUser = { id: "1", username: "neil@neil.com", password: "blahblah" }
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut
+} = NextAuth({
+  // callbacks: {
+  //   authorized({ auth, request: { nextUrl } }) {
+  //     const isLoggedIn = !!auth?.user
+  //     const isOnDashboard = nextUrl.pathname.startsWith("/dashboard")
+  //     if (isOnDashboard) {
+  //       if (isLoggedIn) return true
+  //       return false // Redirect unauthenticated users to login page
+  //     } else if (isLoggedIn) {
+  //       return Response.redirect(new URL("/dashboard", nextUrl))
+  //     }
+  //     return true
+  //   }
+  // },
   providers: [
+    GitHub,
     Credentials({
+      name: "Credentials",
+      credentials: {
+        username: { label: "Username:", type: "text", placeceholder: "your-username" },
+        password: { label: "Password", type: "password", placeholder: "your-password" }
+      },
       async authorize(credentials) {
-        // console.log("authorize -credentials", credentials)
-        const parsedCredentials = z
-          .object({ email: z.string().email(), password: z.string().min(6) })
-          .safeParse(credentials)
-
-        // console.log("--parsedCredentials--", parsedCredentials)
-
-        if (parsedCredentials.success) {
-          const { email, password } = parsedCredentials.data
-          const user = await getUserByEmail(email)
-          console.log("--user--", user)
-          if (!user) return null
-
-          const passwordsMatch = await bcrypt.compare(password, user.password)
-
-          //   console.log("--passwordsMatch--", passwordsMatch)
-
-          if (passwordsMatch) {
-            console.log("Passwords matched, return user", user)
-            return user
-          }
+        console.log("--credentials--", credentials)
+        return adminUser
+        if (credentials?.username === adminUser.username && credentials?.password === adminUser.password) {
+          return adminUser
         }
 
-        console.log("Invalid credentials...........")
         return null
       }
     })

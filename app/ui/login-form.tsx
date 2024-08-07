@@ -1,17 +1,23 @@
-"use client"
-
 import { lusitana } from "@/app/ui/fonts"
 import { AtSymbolIcon, KeyIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline"
 import { ArrowRightIcon } from "@heroicons/react/20/solid"
 import { Button } from "./button"
-import { authenticate } from "../db/authActions"
+import { auth, signIn, signOut } from "@/auth"
+
 // import { userFormState } from "react-dom"
 // import { useActionState } from "react"
 
 export default function LoginForm() {
   // const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined)
   return (
-    <form className="space-y-3" action={authenticate}>
+    <form
+      className="space-y-3"
+      action={async () => {
+        "use server"
+        // await signIn("github")
+        await signIn("credentials")
+      }}
+    >
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>Please log in to continue.</h1>
         <div className="w-full">
