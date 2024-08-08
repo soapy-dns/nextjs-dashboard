@@ -16,8 +16,6 @@ export default async function Page() {
     redirect("/api/auth/signin?callbackUrl=/dashboard")
   }
 
-  // if (!session) return <div>Not authenticated</div>
-
   // const revenue = await fetchRevenue()
   // const users = await seedUsers()
   // const latestInvoices = await fetchLatestInvoices()

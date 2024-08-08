@@ -16,10 +16,8 @@ export default function LoginForm() {
       className="space-y-3"
       action={async (formData: FormData) => {
         "use server"
-        console.log("formData", formData)
-        // await signIn("credentials", formData, { redirectTo: "/dashboard" }) // TODO:
         try {
-          await signIn("github", formData)
+          await signIn("credentials", formData)
         } catch (error) {
           throw error
         }

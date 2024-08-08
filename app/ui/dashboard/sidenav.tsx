@@ -20,6 +20,7 @@ export default function SideNav() {
         <form
           action={async () => {
             "use server"
+            console.log("signout")
             await signOut({ redirectTo: "/", redirect: true })
           }}
         >
