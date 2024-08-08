@@ -31,3 +31,14 @@ https://www.youtube.com/watch?v=N0Wb85m3YMI
 ## Auth
 
 https://www.youtube.com/watch?v=w2h54xz6Ndw
+
+https://authjs.dev/getting-started - v5 official docs
+
+https://www.youtube.com/watch?v=DJvM2lSPn6w - semi-official v5
+
+v5, but could be better
+https://www.youtube.com/watch?v=4BjowsolXmw
+
+https://www.youtube.com/watch?v=w2h54xz6Ndw - Dave Gray - v4 (has augmented modules) doesn't have custom
+
+- Good https://www.youtube.com/watch?v=bMYZSi_LZ2w

@@ -1,44 +1,37 @@
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
-import Credentials from "next-auth/providers/credentials"
+// import Credentials from "next-auth/providers/credentials"
+// import { z } from "zod"
 
-const adminUser = { id: "1", username: "neil@neil.com", password: "blahblah" }
-export const {
-  handlers: { GET, POST },
-  auth,
-  signIn,
-  signOut
-} = NextAuth({
-  // callbacks: {
-  //   authorized({ auth, request: { nextUrl } }) {
-  //     const isLoggedIn = !!auth?.user
-  //     const isOnDashboard = nextUrl.pathname.startsWith("/dashboard")
-  //     if (isOnDashboard) {
-  //       if (isLoggedIn) return true
-  //       return false // Redirect unauthenticated users to login page
-  //     } else if (isLoggedIn) {
-  //       return Response.redirect(new URL("/dashboard", nextUrl))
-  //     }
-  //     return true
-  //   }
-  // },
+const adminUser = { id: "1", email: "neil@neil.com", password: "blahblah" }
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  // TODO: getting Credentials to work with redirects and custom forms with next-auth v5 was beyond me.
   providers: [
-    GitHub,
-    Credentials({
-      name: "Credentials",
-      credentials: {
-        username: { label: "Username:", type: "text", placeceholder: "your-username" },
-        password: { label: "Password", type: "password", placeholder: "your-password" }
-      },
-      async authorize(credentials) {
-        console.log("--credentials--", credentials)
-        return adminUser
-        if (credentials?.username === adminUser.username && credentials?.password === adminUser.password) {
-          return adminUser
-        }
+    GitHub
+    // Credentials({
+    //   name: "Credentials",
+    //   credentials: {
+    //     email: {},
+    //     password: {}
+    //   },
 
-        return null
-      }
-    })
+    //   // only at login time - authenticates (authorize too?)
+    //   async authorize(credentials) {
+    //     console.log("--credentials--", credentials)
+    //     const parsedCredentials = z
+    //       .object({ email: z.string().email(), password: z.string().min(6) })
+    //       .safeParse(credentials)
+
+    //     if (parsedCredentials.success) {
+    //       const { email, password } = parsedCredentials.data
+    //       if (email === adminUser.email && password === adminUser.password) {
+    //         return adminUser
+    //       }
+    //       return null
+    //     }
+
+    //     return null
+    //   }
+    // })
   ]
 })

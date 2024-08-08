@@ -5,8 +5,19 @@ import { lusitana } from "@/app/ui/fonts"
 import { Suspense } from "react"
 import { LatestInvoicesSkeleton, RevenueChartSkeleton, CardsSkeleton } from "@/app/ui/skeletons"
 // import { fetchLatestInvoices, fetchRevenue } from "@/app/db/queries"
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
 
 export default async function Page() {
+  const session = await auth()
+  const user = session?.user
+
+  if (!user) {
+    redirect("/api/auth/signin?callbackUrl=/dashboard")
+  }
+
+  // if (!session) return <div>Not authenticated</div>
+
   // const revenue = await fetchRevenue()
   // const users = await seedUsers()
   // const latestInvoices = await fetchLatestInvoices()

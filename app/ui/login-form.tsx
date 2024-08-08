@@ -3,6 +3,8 @@ import { AtSymbolIcon, KeyIcon, ExclamationCircleIcon } from "@heroicons/react/2
 import { ArrowRightIcon } from "@heroicons/react/20/solid"
 import { Button } from "./button"
 import { auth, signIn, signOut } from "@/auth"
+// import { AuthError } from "next-auth"
+import { redirect } from "next/navigation"
 
 // import { userFormState } from "react-dom"
 // import { useActionState } from "react"
@@ -12,10 +14,15 @@ export default function LoginForm() {
   return (
     <form
       className="space-y-3"
-      action={async () => {
+      action={async (formData: FormData) => {
         "use server"
-        // await signIn("github")
-        await signIn("credentials")
+        console.log("formData", formData)
+        // await signIn("credentials", formData, { redirectTo: "/dashboard" }) // TODO:
+        try {
+          await signIn("github", formData)
+        } catch (error) {
+          throw error
+        }
       }}
     >
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
@@ -59,6 +66,7 @@ export default function LoginForm() {
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>{" "}
         <div className="flex h-8 items-end space-x-1">{/* Add form errors here */}</div>
+        {/* <button onClick={() => console.log("onClick button in server component")}>login button</button> */}
         {/* {errorMessage && (
           <>
             <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
