@@ -2,8 +2,9 @@ import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import Credentials from "next-auth/providers/credentials"
 import { z } from "zod"
+import { redirect } from "next/navigation"
 
-const adminUser = { id: "1", email: "neil@neil.com", password: "blahblah" }
+const adminUser = { id: "1", email: "neil@neil.com", password: "blahblah", role: "admin" }
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/login" // custom login page - default is api/auth/signin
@@ -18,20 +19,48 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // Check if the user is authenticated
       // console.log("authorized", auth)
       // console.log("--nextUrl--", nextUrl)
+
+      const user = auth?.user
+
       const isLoggedIn = !!auth?.user
+
+      if (user?.role === "admin") {
+        console.log("admin user found")
+        return true
+      }
+
+      return true
+
+      // TODO: get this authorisation stuff to work
       // console.log("--isLoggedIn--", isLoggedIn)
       // Initialize protected routes
       // Here, all routes except the login page is protected
-      // const isOnProtected = !nextUrl.pathname.startsWith("/login")
+      const isProtected = !nextUrl.pathname.startsWith("/login")
 
-      // if (isOnProtected) {
-      //   if (isLoggedIn) return true
-      //   return false // redirect to /login
-      // } else if (isLoggedIn) {
-      //   // redirected to homepage
-      //   return Response.redirect(new URL("/", nextUrl))
+      // console.log("--isProtected--", isProtected)
+
+      // if (isProtected && !isLoggedIn) {
+      //   return redirect("/login")
       // }
+
+      if (isProtected) {
+        if (isLoggedIn) return true
+        return false // redirect to /login
+      } else if (isLoggedIn) {
+        // redirected to homepage
+        return Response.redirect(new URL("/", nextUrl))
+      }
       return true
+    },
+    // for server
+    async jwt({ token, user }) {
+      if (user) token.role = user.role
+      return token
+    },
+    // for client
+    async session({ session, token }) {
+      if (session?.user) session.user.role = token.role
+      return session
     }
   },
   providers: [
@@ -45,7 +74,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       // only at login time - authenticates (authorize too?)
       async authorize(credentials) {
-        console.log("--credentials--", credentials)
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
           .safeParse(credentials)

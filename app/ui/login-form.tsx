@@ -4,16 +4,18 @@ import { ArrowRightIcon } from "@heroicons/react/20/solid"
 import { Button } from "./button"
 import { auth, signIn, signOut } from "@/auth"
 // import { AuthError } from "next-auth"
-import { redirect } from "next/navigation"
 
 // import { userFormState } from "react-dom"
 // import { useActionState } from "react"
 
 export default function LoginForm() {
   // const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined)
+  // const [errorMsg, dispatch] = useFormState(authenticate, undefined)
+
   return (
     <form
       className="space-y-3"
+      // action={dispatch}
       action={async (formData: FormData) => {
         "use server"
         try {
@@ -60,6 +62,7 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
+        {/* <p>{errorMsg}</p> */}
         <Button className="mt-4 w-full">
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>{" "}

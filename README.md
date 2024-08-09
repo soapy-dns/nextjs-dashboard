@@ -41,4 +41,6 @@ https://www.youtube.com/watch?v=4BjowsolXmw
 
 https://www.youtube.com/watch?v=w2h54xz6Ndw - Dave Gray - v4 (has augmented modules) doesn't have custom
 
+https://www.youtube.com/watch?v=ay-atEUGIc4 - Dave Gray, but v4
+
 - Good https://www.youtube.com/watch?v=bMYZSi_LZ2w
