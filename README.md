@@ -28,7 +28,7 @@ https://github.com/orgs/supabase/discussions/21264
 
 https://www.youtube.com/watch?v=N0Wb85m3YMI
 
-## Auth
+## Auth - next-auth - to be honest I am over this.
 
 https://www.youtube.com/watch?v=w2h54xz6Ndw
 
@@ -44,3 +44,6 @@ https://www.youtube.com/watch?v=w2h54xz6Ndw - Dave Gray - v4 (has augmented modu
 https://www.youtube.com/watch?v=ay-atEUGIc4 - Dave Gray, but v4
 
 - Good https://www.youtube.com/watch?v=bMYZSi_LZ2w
+
+Advanced
+https://www.youtube.com/watch?v=1MTyCvS05V4

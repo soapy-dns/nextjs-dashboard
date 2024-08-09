@@ -11,6 +11,7 @@ import { auth, signIn, signOut } from "@/auth"
 export default function LoginForm() {
   // const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined)
   // const [errorMsg, dispatch] = useFormState(authenticate, undefined)
+  let error
 
   return (
     <form
@@ -19,9 +20,13 @@ export default function LoginForm() {
       action={async (formData: FormData) => {
         "use server"
         try {
+          error = undefined
           await signIn("credentials", formData)
         } catch (error) {
-          throw error
+          console.log("error", error)
+          // TODO: can't do alert, can't use hooks. wtf can i do?
+          // alert("error logging in")
+          error = "Error logging in"
         }
       }}
     >
@@ -62,7 +67,7 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        {/* <p>{errorMsg}</p> */}
+        <div className="border-2 border-red-300">{error && <p>{error}</p>}</div>
         <Button className="mt-4 w-full">
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>{" "}
